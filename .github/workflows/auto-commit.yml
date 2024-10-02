@@ -1,0 +1,24 @@
+name: Auto Commit every minute
+
+on:
+  schedule:
+    - cron: "* * * * *"  # Chạy mỗi 1 phút
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest  # Sử dụng môi trường Ubuntu
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git config
+        run: |
+          git config user.name "humhliao"  # Tên người dùng
+          git config user.email "humhliao@gmail.com"  # Địa chỉ email
+
+      - name: Auto commit
+        run: |
+          echo "Auto update $(date)" >> update.log  # Tạo hoặc thêm vào file log
+          git add update.log  # Thêm file log vào commit
+          git commit -m "Auto commit $(date)"  # Commit với message tự động
+          git push  # Đẩy thay đổi lên GitHub
